@@ -5,7 +5,7 @@
 	gain_text = ""
 	lose_text = ""
 	resilience = TRAUMA_RESILIENCE_SURGERY
-
+//test
 	var/hypnotic_phrase = ""
 
 /datum/brain_trauma/hypnosis/New(phrase)
