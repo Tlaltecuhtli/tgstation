@@ -297,6 +297,22 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	attack_verb = list("stabbed", "ripped", "gored", "impaled")
 	embedding = list("embedded_pain_multiplier" = 8, "embed_chance" = 100, "embedded_fall_chance" = 0, "embedded_impact_pain_multiplier" = 15) //55 damage+embed on hit
 
+/obj/item/throwing_star/knife
+	name = "throwing knife"
+	desc = "An ancient weapon still used to this day, due to its ease of lodging itself into its victim's body parts."
+	icon_state = "throwing_knife"
+	item_state = "throwing_knife"
+	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
+	force = 12
+	throwforce = 15
+	throw_speed = 4
+	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 70, "embedded_fall_chance" = 20)
+	w_class = WEIGHT_CLASS_SMALL
+	sharpness = IS_SHARP
+	materials = list(MAT_METAL=500, MAT_GLASS=500)
+	resistance_flags = FIRE_PROOF
+
 /obj/item/switchblade
 	name = "switchblade"
 	icon_state = "switchblade"
@@ -666,3 +682,51 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 		to_chat(user, "<span class='warning'>[M] is too close to use [src] on.</span>")
 		return
 	M.attack_hand(user)
+
+/obj/item/butterfly_knife
+	name = "butterfly knife"
+	icon_state = "butterflyknife"
+	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
+	desc = "A sharp, concealable, spring-loaded knife."
+	flags_1 = CONDUCT_1
+	force = 3
+	w_class = WEIGHT_CLASS_SMALL
+	throwforce = 5
+	throw_speed = 3
+	throw_range = 6
+	materials = list(MAT_METAL=12000)
+	hitsound = 'sound/weapons/genhit.ogg'
+	attack_verb = list("stubbed", "poked")
+	resistance_flags = FIRE_PROOF
+	var/extended = 0
+
+/obj/item/butterfly_knife/attack_self(mob/user)
+	extended = !extended
+	playsound(src.loc, 'sound/weapons/batonextend.ogg', 50, 1)
+	if(extended)
+		force = 20
+		w_class = WEIGHT_CLASS_NORMAL
+		throwforce = 23
+		icon_state = "butterflyknife_open"
+		attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
+		hitsound = 'sound/weapons/bladeslice.ogg'
+		sharpness = IS_SHARP
+	else
+		force = 3
+		w_class = WEIGHT_CLASS_SMALL
+		throwforce = 5
+		icon_state = "butterflyknife"
+		attack_verb = list("stubbed", "poked")
+		hitsound = 'sound/weapons/genhit.ogg'
+		sharpness = IS_BLUNT
+
+/obj/item/butterfly_knife/afterattack(atom/target, mob/living/user, proximity_flag)
+	. = ..()
+	if(extended)
+		if(proximity_flag && isliving(target))
+			var/mob/living/L = target
+			var/backstab_dir = get_dir(user, L)
+			if((user.dir & backstab_dir) && (L.dir & backstab_dir))
+				L.adjustBruteLoss(30, 0, TRUE)
+				L.emote("scream")

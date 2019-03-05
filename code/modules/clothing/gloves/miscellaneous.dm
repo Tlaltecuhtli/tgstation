@@ -77,3 +77,31 @@
 	var/input = stripped_input(user,"What do you want your battlecry to be? Max length of 6 characters.", ,"", 7)
 	if(input)
 		warcry = input
+
+/obj/item/clothing/gloves/knuckles
+	name = "knuckles"
+	desc = "Because you really needed another excuse to punch your crewmates."
+	icon_state = "knuckles"
+	item_state = "knuckles"
+	equip_delay_other = 60
+	var/originaldmglow
+	var/originaldmghigh
+
+/obj/item/clothing/gloves/knuckles/equipped(mob/user, slot)
+	if(!ishuman(user))
+		return
+	if(slot == SLOT_GLOVES)
+		var/mob/living/carbon/human/H = user
+		originaldmglow = H.dna.species.punchdamagelow
+		originaldmghigh = H.dna.species.punchdamagehigh
+		H.dna.species.punchdamagelow = 12
+		H.dna.species.punchdamagehigh = 18
+	return
+/obj/item/clothing/gloves/knuckles/dropped(mob/user)
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+	if(H.get_item_by_slot(SLOT_GLOVES) == src)
+		H.dna.species.punchdamagelow = originaldmglow
+		H.dna.species.punchdamagehigh = originaldmghigh
+	return

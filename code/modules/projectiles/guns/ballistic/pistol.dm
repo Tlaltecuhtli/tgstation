@@ -80,3 +80,18 @@
 		to_chat(user, "<span class='notice'>..and falls into view. Whew, that was a close one.</span>")
 		user.dropItemToGround(src)
 
+/obj/item/gun/ballistic/automatic/pistol/derringer
+	name = "derringer"
+	desc = "A small, easily concealable 10mm handgun. Has a threaded barrel for suppressors."
+	icon_state = "derringer"
+	item_state = ""
+	w_class = WEIGHT_CLASS_TINY
+	mag_type = /obj/item/ammo_box/magazine/internal/derringer
+	can_suppress = FALSE
+	burst_size = 1
+	fire_delay = 10
+	actions_types = list()
+	bolt_type = BOLT_TYPE_NO_BOLT
+	fire_sound = "sound/weapons/gunshot.ogg"
+	vary_fire_sound = FALSE
+	fire_sound_volume = 80

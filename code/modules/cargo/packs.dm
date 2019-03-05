@@ -1812,7 +1812,12 @@
 					/obj/item/storage/fancy/cigarettes/cigpack_shadyjims,
 					/obj/item/clothing/mask/gas/syndicate,
 					/obj/item/clothing/neck/necklace/dope,
-					/obj/item/vending_refill/donksoft)
+					/obj/item/vending_refill/donksoft,
+					/obj/item/clothing/gloves/knuckles,
+					/obj/item/butterfly_knife,
+					/obj/item/gun/ballistic/automatic/pistol/derringer,
+					/obj/item/reagent_containers/pill/floorpill,
+					/obj/item/throwing_star/knife)
 	crate_name = "crate"
 
 /datum/supply_pack/costumes_toys/foamforce

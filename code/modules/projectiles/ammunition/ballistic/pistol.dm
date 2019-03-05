@@ -48,3 +48,9 @@
 	caliber = ".50"
 	projectile_type = /obj/item/projectile/bullet/a50AE
 
+/obj/item/ammo_casing/c41
+	name = ".41 bullet casing"
+	desc = "A .41 bullet casing."
+	caliber = ".41"
+	projectile_type = /obj/item/projectile/bullet/c41
+
