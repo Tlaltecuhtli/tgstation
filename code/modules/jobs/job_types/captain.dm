@@ -39,7 +39,7 @@ Captain
 	id = /obj/item/card/id/gold
 	belt = /obj/item/pda/captain
 	glasses = /obj/item/clothing/glasses/sunglasses
-	ears = /obj/item/radio/headset/heads/captain/alt
+	ears = /obj/item/radio/headset/captain/alt
 	gloves = /obj/item/clothing/gloves/color/captain
 	uniform =  /obj/item/clothing/under/rank/captain
 	suit = /obj/item/clothing/suit/armor/vest/capcarapace
@@ -108,7 +108,7 @@ Head of Personnel
 
 	id = /obj/item/card/id/silver
 	belt = /obj/item/pda/heads/hop
-	ears = /obj/item/radio/headset/heads/hop
+	ears = /obj/item/radio/headset/hop
 	uniform = /obj/item/clothing/under/rank/head_of_personnel
 	shoes = /obj/item/clothing/shoes/sneakers/brown
 	head = /obj/item/clothing/head/hopcap
