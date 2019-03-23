@@ -236,7 +236,6 @@
 /obj/effect/mob_spawn/human/corpse/delayed
 	ghost_usable = FALSE //These are just not-yet-set corpses.
 	instant = FALSE
-
 //Non-human spawners
 
 /obj/effect/mob_spawn/AICorpse/create(ckey) //Creates a corrupted AI
@@ -433,7 +432,7 @@
 
 /datum/outfit/nanotrasenbridgeofficercorpse
 	name = "Bridge Officer Corpse"
-	ears = /obj/item/radio/headset/heads/hop
+	ears = /obj/item/radio/headset/hop
 	uniform = /obj/item/clothing/under/rank/centcom_officer
 	suit = /obj/item/clothing/suit/armor/bulletproof
 	shoes = /obj/item/clothing/shoes/sneakers/black
