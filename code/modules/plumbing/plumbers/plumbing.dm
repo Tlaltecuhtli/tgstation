@@ -6,8 +6,6 @@
 	anchored = FALSE
 	active_power_usage = 30
 	use_power = ACTIVE_POWER_USE
-	///how many chems can it hold
-	var/capacity = 100
 	///var to prevent do_after stacking
 	var/working = FALSE
 	///if crowbar'd what it turns into

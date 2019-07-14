@@ -3,7 +3,8 @@
 	desc = "A fountain, you can drink from here."
 	icon_state = "fountain"
 	density = TRUE
-	capacity = 200
+	///max volume
+	var/capacity = 200
 	deployable = /obj/item/deployable/fountain
 	///fluid overlay that appears over the fountain when there are liquids inside, it changes color
 	var/mutable_appearance/fluid_overlay
@@ -19,31 +20,16 @@
 	fluid_overlay.icon_state = "fountain_grey"
 	fluid_overlay.plane = BELOW_MOB_LAYER
 
-/obj/machinery/plumbing/fountain/Destroy()
-	STOP_PROCESSING(SSobj, src)
-	return ..()
-
-/obj/machinery/plumbing/fountain/process()
-	update_icon()
-
-/obj/machinery/plumbing/fountain/default_unfasten_wrench(mob/user, obj/item/I, time = 5)
+/obj/machinery/plumbing/fountain/on_reagent_change(changetype)
 	. = ..()
-	if(anchored)
-		START_PROCESSING(SSobj, src)
-		return
-	STOP_PROCESSING(SSobj, src)
-
-/obj/machinery/plumbing/fountain/update_icon()
-	..()
-	if(reagents && reagents.total_volume && powered())
-		var/col = mix_color_from_reagents(reagents.reagent_list)
-		fluid_overlay.color = col
-		if(!has_fluid)
-			add_overlay(fluid_overlay)
-			has_fluid = TRUE
-	else
+	if(!reagents.reagent_list.len)
 		cut_overlay(fluid_overlay)
 		has_fluid = FALSE
+	var/col = mix_color_from_reagents(reagents.reagent_list)
+	fluid_overlay.color = col
+	if(!has_fluid)
+		add_overlay(fluid_overlay)
+		has_fluid = TRUE
 
 /obj/machinery/plumbing/fountain/attack_hand(mob/user)
 	. = ..()

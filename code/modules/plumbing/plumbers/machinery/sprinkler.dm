@@ -11,7 +11,8 @@
 	density = FALSE
 	active_power_usage = 70
 	deployable = /obj/item/deployable/sprinkler
-	capacity = 10
+	///max volume
+	var/capacity = 10
 	/// it holds the time after the sprinkler can dispense again
 	var/cooldown = 0
 	///checks if the thing is dirty
