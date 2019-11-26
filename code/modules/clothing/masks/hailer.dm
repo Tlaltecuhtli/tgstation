@@ -204,7 +204,7 @@
 	whistle()
 
 /obj/item/clothing/mask/whistle/verb/whistle()
-	if(cooldown < world.time - 30)
+	if(cooldown < world.time - 100) // 10s cooldown
 		usr.audible_message("<font color='red' size='5'><b>HALT!</b></font>")
-		playsound(src.loc, "sound/voice/complionator/stfu.ogg", 100, FALSE, 4) //placeholder
+		playsound(src.loc, "sound/voice/complionator/whistle.ogg", 100, FALSE, 4)
 		cooldown = world.time

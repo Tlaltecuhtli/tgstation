@@ -284,4 +284,4 @@
 	icon_state = "constable-hazard-vest"
 	item_state = "constable-hazard-vest"
 	body_parts_covered = CHEST|GROIN
-	armor = list("melee" = 45, "bullet" = 5, "laser" = 5, "energy" = 30, "bomb" = 30, "bio" = 50, "rad" = 30, "fire" = 40, "acid" = 50)
+	armor = list("melee" = 25, "bullet" = 5, "laser" = 5, "energy" = 10, "bomb" = 20, "bio" = 50, "rad" = 10, "fire" = 20, "acid" = 50)
