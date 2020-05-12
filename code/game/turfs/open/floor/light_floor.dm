@@ -1,46 +1,35 @@
 /turf/open/floor/light
 	name = "light floor"
-	desc = "A wired glass tile embedded into the floor. Modify the color with a Multitool."
+	desc = "A wired glass tile embedded into the floor."
 	light_range = 5
 	icon_state = "light_on"
 	floor_tile = /obj/item/stack/tile/light
 	broken_states = list("light_broken")
+	///if tile is on or off
 	var/on = TRUE
-	var/state = 0//0 = fine, 1 = flickering, 2 = breaking, 3 = broken
-	var/static/list/coloredlights = list("r", "o", "y", "g", "b", "i", "v", "w", "s", "z")
-	var/currentcolor = "b"
+	///0 = fine, 1 = flickering, 2 = breaking, 3 = broken
+	var/state = 0
+	///array of colors
+	var/list/coloredlights = list(LIGHT_COLOR_RED, LIGHT_COLOR_GREEN, LIGHT_COLOR_YELLOW, LIGHT_COLOR_DARK_BLUE, LIGHT_COLOR_LAVENDER, LIGHT_COLOR_SLIME_LAMP, LIGHT_COLOR_LIGHT_CYAN)
+	/// var to cycle colors
+	var/currentcolor = 1
+	///if you can change color by touching it
 	var/can_modify_colour = TRUE
 	tiled_dirt = FALSE
-	var/static/list/lighttile_designs
+
 
 /turf/open/floor/light/examine(mob/user)
 	. = ..()
 	. += "<span class='notice'>There's a <b>small crack</b> on the edge of it.</span>"
 
-/turf/open/floor/light/proc/populate_lighttile_designs()
-	lighttile_designs = list(
-		"r" = image(icon = src.icon, icon_state = "light_on-r"),
-		"o" = image(icon = src.icon, icon_state = "light_on-o"),
-		"y" = image(icon = src.icon, icon_state = "light_on-y"),
-		"g" = image(icon = src.icon, icon_state = "light_on-g"),
-		"b" = image(icon = src.icon, icon_state = "light_on-b"),
-		"i" = image(icon = src.icon, icon_state = "light_on-i"),
-		"v" = image(icon = src.icon, icon_state = "light_on-v"),
-		"w" = image(icon = src.icon, icon_state = "light_on-w"),
-		"blk" = image(icon = src.icon, icon_state = "light_on-blk"),
-		"s" = image(icon = src.icon, icon_state = "light_on-s"),
-		"z" = image(icon = src.icon, icon_state = "light_on-z")
-		)
-
 /turf/open/floor/light/Initialize()
 	. = ..()
+	state = 0
 	update_icon()
-	if(!length(lighttile_designs))
-		populate_lighttile_designs()
 
 /turf/open/floor/light/break_tile()
 	..()
-	light_range = 0
+	state = pick(1,2,3)
 	update_light()
 
 /turf/open/floor/light/update_icon()
@@ -49,14 +38,18 @@
 		switch(state)
 			if(0)
 				icon_state = "light_on-[currentcolor]"
-				set_light(1)
+				light_color = coloredlights[currentcolor]
+				set_light(5)
+				light_range = 3
 			if(1)
-				var/num = pick("1","2","3","4")
-				icon_state = "light_on_flicker[num]"
-				set_light(1)
+				icon_state = "light_on_flicker[currentcolor]"
+				light_color = coloredlights[currentcolor]
+				set_light(3)
+				light_range = 2
 			if(2)
 				icon_state = "light_on_broken"
-				set_light(1)
+				set_light(2)
+				light_range = 1
 			if(3)
 				icon_state = "light_off"
 				set_light(0)
@@ -69,16 +62,19 @@
 	set_light(0)
 	return ..()
 
-/turf/open/floor/light/multitool_act(mob/living/user, obj/item/I)
+/turf/open/floor/light/attack_hand(mob/user)
 	. = ..()
 	if(.)
 		return
 	if(!can_modify_colour)
 		return
-	var/choice = show_radial_menu(user,src, lighttile_designs, custom_check = CALLBACK(src, .proc/check_menu, user, I), radius = 36, require_near = TRUE)
-	if(!choice)
-		return FALSE
-	currentcolor = choice
+	if(!on)
+		on = TRUE
+		currentcolor = 1
+	else
+		currentcolor++
+	if(currentcolor > coloredlights.len)
+		on = FALSE
 	update_icon()
 
 /turf/open/floor/light/attack_ai(mob/user)
@@ -99,7 +95,9 @@
 
 //Cycles through all of the colours
 /turf/open/floor/light/colour_cycle
-	currentcolor = "cycle_all"
+	icon_state = "light_on-cycle_all"
+	light_color = LIGHT_COLOR_SLIME_LAMP
+	light_range = 3
 	can_modify_colour = FALSE
 
 
@@ -109,25 +107,15 @@
 /turf/open/floor/light/colour_cycle/dancefloor_a
 	name = "dancefloor"
 	desc = "Funky floor."
-	currentcolor = "dancefloor_A"
+	icon_state = "light_on-dancefloor_A"
+	light_color = LIGHT_COLOR_SLIME_LAMP
+	light_range = 3
+	can_modify_colour = FALSE
 
 /turf/open/floor/light/colour_cycle/dancefloor_b
 	name = "dancefloor"
 	desc = "Funky floor."
-	currentcolor = "dancefloor_A"
-
-/**
-  * check_menu: Checks if we are allowed to interact with a radial menu
-  *
-  * Arguments:
-  * * user The mob interacting with a menu
-  * * multitool The multitool used to interact with a menu
-  */
-/turf/open/floor/light/proc/check_menu(mob/living/user, obj/item/multitool)
-	if(!istype(user))
-		return FALSE
-	if(user.incapacitated())
-		return FALSE
-	if(!multitool || !user.is_holding(multitool))
-		return FALSE
-	return TRUE
+	icon_state = "light_on-dancefloor_B"
+	light_color = LIGHT_COLOR_SLIME_LAMP
+	light_range = 3
+	can_modify_colour = FALSE
