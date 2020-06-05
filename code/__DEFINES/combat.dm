@@ -45,6 +45,7 @@
 #define HEALTH_THRESHOLD_DEAD -100
 
 #define HEALTH_THRESHOLD_NEARDEATH -90 //Not used mechanically, but to determine if someone is so close to death they hear the other side
+#define HEALTH_THRESHOLD_VERY_DEAD -300 ///multiple body parts with capped damage
 
 //Actual combat defines
 

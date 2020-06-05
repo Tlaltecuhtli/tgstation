@@ -188,6 +188,12 @@ GLOBAL_LIST_EMPTY(parasites) //all currently existing/living guardians
 		visible_message("<span class='danger'><B>[src] dies along with its user!</B></span>")
 		death(TRUE)
 		qdel(src)
+	if(summoner.health < HEALTH_THRESHOLD_VERY_DEAD) /// if you happen to somehow have 500+ damage and still count as alive (example a memento mori) your holopara dies
+		to_chat(src, "<span class='danger'><B>Your summoner's body is too damaged and you aren't able to keep the link anymore!</span></B>")
+		visible_message("<span class='danger'><B>\The [src] dies!</B></span>")
+		ghostize()
+		qdel(src)
+		return
 	snapback()
 
 /mob/living/simple_animal/hostile/guardian/Stat()
