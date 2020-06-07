@@ -4,7 +4,7 @@
 	icon_state = "magboots0"
 	var/magboot_state = "magboots"
 	var/magpulse = 0
-	var/slowdown_active = SHOES_SLOWDOWN+0.8
+	var/slowdown_active = SHOES_SLOWDOWN+0.9
 	permeability_coefficient = 0.05
 	actions_types = list(/datum/action/item_action/toggle)
 	strip_delay = 70
