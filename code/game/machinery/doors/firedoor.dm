@@ -21,6 +21,8 @@
 	assemblytype = /obj/structure/firelock_frame
 	armor = list(MELEE = 10, BULLET = 30, LASER = 20, ENERGY = 20, BOMB = 30, BIO = 100, RAD = 100, FIRE = 95, ACID = 70)
 	interaction_flags_machine = INTERACT_MACHINE_WIRES_IF_OPEN | INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_OPEN_SILICON | INTERACT_MACHINE_REQUIRES_SILICON | INTERACT_MACHINE_OPEN
+	sparky = FALSE
+	req_access = list( ACCESS_CONSTRUCTION)
 	var/nextstate = null
 	var/boltslocked = TRUE
 	var/list/affecting_areas
@@ -85,6 +87,9 @@
 	if(operating || !density)
 		return
 	user.changeNext_move(CLICK_CD_MELEE)
+	if(allowed(user))
+		open()
+		return
 
 	user.visible_message("<span class='notice'>[user] bangs on \the [src].</span>", \
 		"<span class='notice'>You bang on \the [src].</span>")

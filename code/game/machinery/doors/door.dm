@@ -15,7 +15,6 @@
 	flags_1 = PREVENT_CLICK_UNDER_1
 	receive_ricochet_chance_mod = 0.8
 	damage_deflection = 10
-
 	interaction_flags_atom = INTERACT_ATOM_UI_INTERACT
 
 	var/secondsElectrified = MACHINE_NOT_ELECTRIFIED
@@ -40,6 +39,7 @@
 	var/unres_sides = 0 //Unrestricted sides. A bitflag for which direction (if any) can open the door with no access
 	var/safety_mode = FALSE ///Whether or not the airlock can be opened with bare hands while unpowered
 	var/can_crush = TRUE /// Whether or not the door can crush mobs.
+	var/sparky = TRUE /// if the door creates sparks when damaged
 
 
 /obj/machinery/door/examine(mob/user)
@@ -65,8 +65,9 @@
 	update_freelook_sight()
 	air_update_turf(1)
 	GLOB.airlocks += src
-	spark_system = new /datum/effect_system/spark_spread
-	spark_system.set_up(2, 1, src)
+	if(sparky)
+		spark_system = new /datum/effect_system/spark_spread
+		spark_system.set_up(2, 1, src)
 	if(density)
 		flags_1 |= PREVENT_CLICK_UNDER_1
 	else
@@ -233,7 +234,7 @@
 /obj/machinery/door/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir)
 	. = ..()
 	if(. && obj_integrity > 0)
-		if(damage_amount >= 10 && prob(30))
+		if(sparky && damage_amount >= 10 && prob(30))
 			spark_system.start()
 
 /obj/machinery/door/play_attack_sound(damage_amount, damage_type = BRUTE, damage_flag = 0)
